@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <label for="email">Email:</label>
+    <input type="input" id="email" name="email">
+    <label for="username">Username:</label>
+    <input type="input" id="username" name="username">
+    <label for="password1">Passowrd:</label>
+    <input type="password" id="password1" name="password1">
+    <label for="password2">Repeat Passowrd:</label>
+    <input type="password" id="password2" name="password2">
+    <button type="submit">REGISTER</button>
+</form>
+
+{% if form.errors and request.method == 'POST'%}
+    <div class="alert alert-danger" role="alert">{{ form.errors }}</div>
+{% elif request.method == 'POST' %}
+    <div class="alert alert-success" role="alert">User created successfully!</div>
+{% endif %}
+{% endblock %}
