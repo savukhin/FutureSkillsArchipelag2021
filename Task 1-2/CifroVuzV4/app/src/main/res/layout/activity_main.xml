@@ -9,8 +9,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleY="1.75"
-        android:text="Hello World!"
+        android:fontFamily="@font/kepler"
+        android:text="@string/logo_III"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#B2B2B6"
+        android:textSize="34sp"
         tools:layout_editor_absoluteX="159dp"
         tools:layout_editor_absoluteY="296dp" />
 
@@ -18,25 +22,35 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/kepler"
         android:text="@string/logo_I"
-        tools:layout_editor_absoluteX="179dp"
-        tools:layout_editor_absoluteY="73dp" />
+        android:textColor="#0366B4"
+        android:textSize="48sp"
+        tools:layout_editor_absoluteX="59dp"
+        tools:layout_editor_absoluteY="43dp" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="177dp"
-        tools:layout_editor_absoluteY="136dp" />
+        android:fontFamily="@font/stinger"
+        android:scaleX="0.97"
+        android:scaleY="1.75"
+        android:text="@string/logo_II"
+        android:textColor="#0366B4"
+        android:textSize="48sp"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="135dp" />
 
     <EditText
         android:id="@+id/editTextTextPersonName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:fontFamily="@font/stinger"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text="@string/login_name"
+        android:textColor="#8C040404"
         tools:layout_editor_absoluteX="101dp"
         tools:layout_editor_absoluteY="425dp" />
 
