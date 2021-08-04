@@ -17,9 +17,13 @@
     </center>
 </form>
 <br><br>
+
 <center>
-<button type="submit">Забыли пароль</button>
+    <form action="{% url 'forgotPassword' %}">
+        <input type="submit" value="Забыли пароль" />
+    </form>
 </center>
+
 <center>
     {% if errors and request.method == 'POST'%}
         <div class="alert alert-danger" role="alert">{{ errors }}</div>
