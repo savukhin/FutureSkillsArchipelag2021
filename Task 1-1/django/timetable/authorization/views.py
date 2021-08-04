@@ -8,11 +8,13 @@ from django.utils.encoding import force_text, force_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from .tokens import account_activation_token
 from django.views import View
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseNotFound, HttpResponse
 
 # Create your views here.
 
 
+@user_passes_test(lambda user: not user.is_authenticated, login_url='/')
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -28,6 +30,7 @@ def register(request):
     return render(request, template_name='registration.html')
 
 
+@user_passes_test(lambda user: not user.is_authenticated, login_url='/')
 def loginView(request):
     if request.method == 'POST':
         user = authenticate(username=request.POST['username'], password=request.POST['password'])
@@ -41,6 +44,7 @@ def loginView(request):
     return render(request, template_name='login.html')
 
 
+@login_required(redirect_field_name='/')
 def logoutView(request):
     logout(request)
     return redirect('/')
@@ -55,6 +59,7 @@ class NewPassword(View):
             user = None
         return user
 
+    @user_passes_test(lambda user: not user.is_authenticated, login_url='/')
     def get(self, request, uidb64, token):
         user = self.get_user(uidb64, token)
 
@@ -63,6 +68,7 @@ class NewPassword(View):
         else:
             return HttpResponseNotFound('<h1>Page not found</h1>')
 
+    @user_passes_test(lambda user: not user.is_authenticated, login_url='/')
     def post(self, request, uidb64, token):
         user = self.get_user(uidb64, token)
         if user is not None and account_activation_token.check_token(user, token):
@@ -73,6 +79,7 @@ class NewPassword(View):
             return HttpResponseNotFound('<h1>Page not found</h1>')
 
 
+@user_passes_test(lambda user: not user.is_authenticated, login_url='/')
 def forgot_password(request):
     if request.method == 'POST':
         users = User.objects.filter(username=request.POST['username'], email=request.POST['email'])

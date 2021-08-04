@@ -13,25 +13,31 @@
 <body>
 <h1 align="center">Добавление предмета</h1>
 <form method="post">
+    {% csrf_token %}
     <center>
-        <lable for="starttime"> Время начала </lable>
-        <input type="datetime-local" id="starttime" name="starttime" >
+        <lable for="beginTime"> Время начала </lable>
+        <!--
+         <input type="datetime-local" id="beginTime" name="beginTime" >
+         -->
+        <input type="datetime-local" id="beginTime" name="beginTime">
         <br><br>
-        <lable for="finishtime"> Время конца </lable>
-        <input type="datetime-local" id="finishtime" name="finishtime" >
+        <lable for="endTime"> Время конца </lable>
+        <input type="datetime-local" id="endTime" name="endTime" >
         <br><br>
-        <lable for="group"> Группа </lable>
-        <input type="input" id="group" name="group" >
+        <lable for="groups"> Группа </lable>
+        <input type="input" id="groups" name="groups" >
         <br>
         <small>Если групп несколько вводить через пробел</small>
         <br>
         <small><small>(Пример:001 003 005)</small></small>
         <br><br>
-        <lable for="subject"> Предмет </lable>
-        <input type="input" id="subject" name="subject" >
+        <small>Если группы нет, то она создастся</small>
         <br><br>
-        <lable for="teacher"> Преподаватель </lable>
-        <input type="input" id="teacher" name="teacher" >
+        <lable for="title"> Предмет </lable>
+        <input type="input" id="title" name="title" >
+        <br><br>
+        <lable for="teacherName"> Преподаватель </lable>
+        <input type="input" id="teacherName" name="teacherName" >
         <br><br>
         <lable for="link"> Ссылка </lable>
         <input type="input" id="link" name="link" >
