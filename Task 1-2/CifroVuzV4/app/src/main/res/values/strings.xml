@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CifroVuzV4</string>
+    <string name="logo_I">ЦИФРОВУЗ</string>
+    <string name="logo_II">НИЯУ МИФИ</string>
+    <string name="logo_III">Вход</string>
+    <string name="login">Войти</string>
+    <string name="registr">Регистрация</string>
+    <string name="login_name">Имя пользователя</string>
+    <string name="password_name">Пароль</string>
+</resources>
