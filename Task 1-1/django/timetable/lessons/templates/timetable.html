@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<title>Расписание</title>
+
+<head>
+    <style>
+        body {
+        font-size: 1.5em;
+       }
+        table {
+        border-collapse: collapse;
+        width:90%;
+        border: 4px solid #000;
+        border-spacing: 1px;
+       }
+        th {
+        background: #0f0;
+        }
+    </style>
+</head>
+
+<h1 align="center">Расписание</h1>
+
+<body>
+<button type="submit">Моя группа</button>
+<br>
+<lable for="number_of_group">Номер группы</lable>
+<select id="number_of_group">
+    <option>Все</option>
+    <option>001</option>
+    <option>002</option>
+    <option>003</option>
+    <option>004</option>
+    <option>005</option>
+</select>
+<br>
+<lable for="teacher">Имя преподавателя</lable>
+<select id="teacher">
+    <option>Все</option>
+    <option>Иванов ИИ</option>
+    <option>Петров ПП</option>
+    <option>Сидоров СС</option>
+    <option>Пучков ДЮ</option>
+    <option>Лол КЕК</option>
+</select>
+<br>
+<lable for="subject">Предмет</lable>
+<select id="subject">
+    <option>Все</option>
+    <option>физика</option>
+    <option>математика</option>
+    <option>информатика</option>
+    <option>физра</option>
+    <option>мемология</option>
+</select>
+<br><br>
+<table border="1">
+    <tr>
+        <th>Время начала</th>
+        <th>Время конца</th>
+        <th>Группа</th>
+        <th>Предмет</th>
+        <th>Преподаватель</th>
+        <th>Ссылка</th>
+    </tr>
+    <tr>
+        <td>8:30</td>
+        <td>10:00</td>
+        <td>001</td>
+        <td>информатика</td>
+        <td>Сидоров СС</td>
+        <td><a href="">ссылка</a></td>
+    </tr>
+    <tr>
+        <td>8:30</td>
+        <td>10:00</td>
+        <td>005</td>
+        <td>информатика</td>
+        <td>Сидоров СС</td>
+        <td><a href="">ссылка</a></td>
+    </tr>
+    <tr>
+        <td>9:00</td>
+        <td>10:30</td>
+        <td>002</td>
+        <td>математика</td>
+        <td>Петров ПП</td>
+        <td><a href="">ссылка</a></td>
+    </tr>
+    <tr>
+        <td>9:00</td>
+        <td>10:30</td>
+        <td>003</td>
+        <td>физика</td>
+        <td>Иванов ИИ</td>
+        <td><a href="">ссылка</a></td>
+    </tr>
+    <tr>
+        <td>9:00</td>
+        <td>10:30</td>
+        <td>004</td>
+        <td>физика</td>
+        <td>Иванов ИИ</td>
+        <td><a href="">ссылка</a></td>
+    </tr>
+    <tr>
+        <td>10:30</td>
+        <td>12:00</td>
+        <td>001</td>
+        <td>мемология</td>
+        <td>Лол КЕК</td>
+        <td><a href="">ссылка</a></td>
+    </tr>
+    <tr>
+        <td>10:30</td>
+        <td>12:00</td>
+        <td>005</td>
+        <td>информатика</td>
+        <td>Петров ПП</td>
+        <td><a href="">ссылка</a></td>
+    </tr>
+</table>
+</body>
