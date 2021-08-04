@@ -5,22 +5,33 @@
 <h1 align="center">Регистрация пользователя</h1>
 <br>
 <form method="post">
+    {% csrf_token %}
     <center>
         <label for="username"> Логин </label>
         <input type="input" id="username" name="username">
         <br>
         <br>
-        <lable for="userpasword"> Пароль </lable>
-        <input type="input" id="userpasword" name="userpasword" >
+        <label for="email"> Email </label>
+        <input type="input" id="email" name="email">
         <br>
         <br>
-        <lable for="userpasword2"> Повторите пароль </lable>
-        <input type="input" id="userpasword2" name="userpasword2" >
+        <lable for="password1"> Пароль </lable>
+        <input type="input" id="password1" name="password1" >
+        <br>
+        <br>
+        <lable for="password2"> Повторите пароль </lable>
+        <input type="input" id="password2" name="password2" >
         <br>
         <br>
         <button type="submit">ОТПРАВИТЬ</button>
-        <button type="reset">стереть</button>
     </center>
 </form>
 <br>
 <center><button type="submit">Я не помню свой пароль</button></center>
+<center>
+    {% if form.errors and request.method == 'POST'%}
+        <div class="alert alert-danger" role="alert">{{ form.errors }}</div>
+    {% elif request.method == 'POST' %}
+        <div class="alert alert-success" role="alert">User created successfully!</div>
+    {% endif %}
+</center>
