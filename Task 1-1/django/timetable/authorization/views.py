@@ -10,6 +10,7 @@ from .tokens import account_activation_token
 from django.views import View
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseNotFound, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -59,7 +60,6 @@ class NewPassword(View):
             user = None
         return user
 
-    @user_passes_test(lambda user: not user.is_authenticated, login_url='/')
     def get(self, request, uidb64, token):
         user = self.get_user(uidb64, token)
 
@@ -68,10 +68,11 @@ class NewPassword(View):
         else:
             return HttpResponseNotFound('<h1>Page not found</h1>')
 
-    @user_passes_test(lambda user: not user.is_authenticated, login_url='/')
     def post(self, request, uidb64, token):
         user = self.get_user(uidb64, token)
         if user is not None and account_activation_token.check_token(user, token):
+            if request.POST['password1'] != request.POST['password2']:
+                return render(request, template_name='newPassword.html', context={'errors': 'passwords are not equal'})
             user.set_password(request.POST['password1'])
             user.save()
             return redirect('/')
