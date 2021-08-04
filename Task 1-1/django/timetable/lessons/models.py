@@ -13,8 +13,4 @@ class Lesson(models.Model):
     endTime = models.DateTimeField()
     teacherName = models.CharField(max_length=200)
     link = models.CharField(max_length=200)
-
-
-class GroupLessonRel(models.Model):
-    group = models.OneToOneField(to=Group, on_delete=models.CASCADE)
-    lesson = models.OneToOneField(to=Lesson, on_delete=models.CASCADE)
+    groups = models.ManyToManyField(Group)

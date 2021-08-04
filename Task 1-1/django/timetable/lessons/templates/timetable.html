@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends 'base.html' %}
 
-<title>Расписание</title>
-
-<head>
+{% block style %}
     <style>
         body {
         font-size: 1.5em;
@@ -18,43 +15,32 @@
         background: #0f0;
         }
     </style>
-</head>
+{% endblock %}
 
+{% block content %}
 <h1 align="center">Расписание</h1>
+{% if request.user.is_superuser %}
+<form action="{% url 'addLesson' %}">
+    <input type="submit" value="Добавить занятие" />
+</form>
+{% endif %}
 
 <body>
-<button type="submit">Моя группа</button>
-<br>
-<lable for="number_of_group">Номер группы</lable>
-<select id="number_of_group">
-    <option>Все</option>
-    <option>001</option>
-    <option>002</option>
-    <option>003</option>
-    <option>004</option>
-    <option>005</option>
-</select>
-<br>
-<lable for="teacher">Имя преподавателя</lable>
-<select id="teacher">
-    <option>Все</option>
-    <option>Иванов ИИ</option>
-    <option>Петров ПП</option>
-    <option>Сидоров СС</option>
-    <option>Пучков ДЮ</option>
-    <option>Лол КЕК</option>
-</select>
-<br>
-<lable for="subject">Предмет</lable>
-<select id="subject">
-    <option>Все</option>
-    <option>физика</option>
-    <option>математика</option>
-    <option>информатика</option>
-    <option>физра</option>
-    <option>мемология</option>
-</select>
-<br><br>
+<form method="post">
+    {% csrf_token %}
+    <br>
+    <label for="group">Номер группы</label>
+    <input type="input" id="group" name="group">
+    <br>
+    <label for="teacherName">Имя преподавателя</label>
+    <input type="input" id="teacherName" name="teacherName">
+    <br>
+    <label for="title">Предмет</label>
+    <input type="input" id="title" name="title">
+    <br>
+    <button type="submit">Отфильтровать</button>
+    <br><br>
+</form>
 <table border="1">
     <tr>
         <th>Время начала</th>
@@ -64,61 +50,19 @@
         <th>Преподаватель</th>
         <th>Ссылка</th>
     </tr>
+    {% for lesson in lessons %}
     <tr>
-        <td>8:30</td>
-        <td>10:00</td>
-        <td>001</td>
-        <td>информатика</td>
-        <td>Сидоров СС</td>
-        <td><a href="">ссылка</a></td>
+        <td>{{lesson.beginTime}}</td>
+        <td>{{lesson.endTime}}</td>
+        <td>{% for group in lesson.groups %}
+            {{group.name}}
+        {% endfor %}</td>
+        <td>{{lesson.title}}</td>
+        <td>{{lesson.teacherName}}</td>
+        {% autoescape off %}
+        <td><a href="#asdf">{{lesson.link}}</a></td>
+        {% endautoescape %}
     </tr>
-    <tr>
-        <td>8:30</td>
-        <td>10:00</td>
-        <td>005</td>
-        <td>информатика</td>
-        <td>Сидоров СС</td>
-        <td><a href="">ссылка</a></td>
-    </tr>
-    <tr>
-        <td>9:00</td>
-        <td>10:30</td>
-        <td>002</td>
-        <td>математика</td>
-        <td>Петров ПП</td>
-        <td><a href="">ссылка</a></td>
-    </tr>
-    <tr>
-        <td>9:00</td>
-        <td>10:30</td>
-        <td>003</td>
-        <td>физика</td>
-        <td>Иванов ИИ</td>
-        <td><a href="">ссылка</a></td>
-    </tr>
-    <tr>
-        <td>9:00</td>
-        <td>10:30</td>
-        <td>004</td>
-        <td>физика</td>
-        <td>Иванов ИИ</td>
-        <td><a href="">ссылка</a></td>
-    </tr>
-    <tr>
-        <td>10:30</td>
-        <td>12:00</td>
-        <td>001</td>
-        <td>мемология</td>
-        <td>Лол КЕК</td>
-        <td><a href="">ссылка</a></td>
-    </tr>
-    <tr>
-        <td>10:30</td>
-        <td>12:00</td>
-        <td>005</td>
-        <td>информатика</td>
-        <td>Петров ПП</td>
-        <td><a href="">ссылка</a></td>
-    </tr>
+    {% endfor %}
 </table>
-</body>
+{% endblock %}
