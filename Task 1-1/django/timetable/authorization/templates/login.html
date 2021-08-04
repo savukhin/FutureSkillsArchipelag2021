@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<title>Авторизация</title>
+<h1 align="center">Авторизация пользователя</h1>
+<br>
+<form method="post">
+    {% csrf_token %}
+    <center>
+        <lable for="username">Введите логин</lable>
+        <input type="input" id="username" name="username">
+        <br><br>
+        <label for="password">Введтите пароль</label>
+        <input type="password" id="password" name="password">
+        <br><br>
+        <button type="submit">Войти</button>
+    </center>
+</form>
+<br><br>
+
+<center>
+    <form action="{% url 'forgotPassword' %}">
+        <input type="submit" value="Забыли пароль" />
+    </form>
+</center>
+
+<center>
+    {% if errors and request.method == 'POST'%}
+        <div class="alert alert-danger" role="alert">{{ errors }}</div>
+    {% elif request.method == 'POST' %}
+        <div class="alert alert-success" role="alert">User created successfully!</div>
+    {% endif %}
+</center>
