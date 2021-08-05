@@ -15,9 +15,6 @@ def check_admin(user):
 @user_passes_test(lambda user: user.is_superuser)
 def add_lesson(request):
     if request.method == 'POST':
-        # lesson = LessonForm(title=request.POST['title'], teacherName=request.POST['teacherName'],
-        #               beginTime=request.POST['beginTime'], endTime=request.POST['endTime'],
-        #               link=request.POST['link'])
         d = {
             'title': request.POST['title'],
             'teacherName': request.POST['teacherName'],
@@ -39,8 +36,6 @@ def add_lesson(request):
                 newGroup = Group(name=group)
                 newGroup.save()
                 g = newGroup
-            #rel = GroupLessonRel(group=g, lesson=lesson.instance)
-            #rel.save()
             lesson.groups.add(g)
 
         return redirect('/timetable')

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegistrationForm
 from django.contrib.auth import authenticate, login, logout
 from .models import CustomUser, CustomAdmin
@@ -11,8 +11,46 @@ from django.views import View
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseNotFound, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import Group
 
 # Create your views here.
+
+
+def profile(request, id):
+    user = get_object_or_404(User, pk=id)
+    try:
+        custom = CustomUser.objects.get(user=user)
+        realname = custom.realname
+    except:
+        custom = None
+        realname = ""
+
+    try:
+        photo = custom.photo
+    except:
+        photo = None
+    return render(request, 'profile.html', context={'user': user, 'photo': photo, 'role': user.groups.all()[0],
+                                                    'realname' : realname})
+
+
+@user_passes_test(lambda user: user.is_superuser, login_url='/')
+def change_profile(request, id):
+    if request.method == "GET":
+        return HttpResponseNotFound()
+    user = get_object_or_404(User, pk=id)
+    group, created = Group.objects.get_or_create(name=request.POST["role"])
+    user.groups.clear()
+    user.groups.add(group)
+    try:
+        custom = CustomUser.objects.get(user=user)
+        custom.realname = request.POST['realname']
+
+        if request.FILES.get('photo', False):
+            custom.photo = request.FILES['photo']
+        custom.save()
+    except:
+        pass
+    return redirect('/profile/' + str(id))
 
 
 @user_passes_test(lambda user: not user.is_authenticated, login_url='/')
