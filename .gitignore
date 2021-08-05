@@ -91,6 +91,7 @@ lint/tmp/
 
 ### Django ###
 **/migrations/*
+!**/migrations/__init__.py
 
 *.log
 *.pot

@@ -1,30 +1,24 @@
-<!DOCTYPE html>
-<html lang="ru">
-
-<head>
-    <title>Добавленеие занятия</title>
+{% extends 'base.html' %}
+{% block styles %}
     <style>
         body {
         font-size: 1.5em;
        }
     </style>
-</head>
+{% endblock %}
 
-<body>
+{% block content %}
 <h1 align="center">Добавление предмета</h1>
 <form method="post">
     {% csrf_token %}
     <center>
         <lable for="beginTime"> Время начала </lable>
-        <!--
-         <input type="datetime-local" id="beginTime" name="beginTime" >
-         -->
         <input type="datetime-local" id="beginTime" name="beginTime">
         <br><br>
         <lable for="endTime"> Время конца </lable>
         <input type="datetime-local" id="endTime" name="endTime" >
         <br><br>
-        <lable for="groups"> Группа </lable>
+        <lable for="groups"> Группы </lable>
         <input type="input" id="groups" name="groups" >
         <br>
         <small>Если групп несколько вводить через пробел</small>
@@ -33,11 +27,15 @@
         <br><br>
         <small>Если группы нет, то она создастся</small>
         <br><br>
-        <lable for="title"> Предмет </lable>
-        <input type="input" id="title" name="title" >
+        <label for="subject"> Предмет </label>
+        <input type="text" id="subject" name="subject"/>
         <br><br>
         <lable for="teacherName"> Преподаватель </lable>
-        <input type="input" id="teacherName" name="teacherName" >
+        <select name="teacherName" id="teacherName">
+            {% for teacher in teachers %}
+                <option>{{ teacher.user.realname }}</option>
+            {% endfor %}
+        </select>
         <br><br>
         <lable for="link"> Ссылка </lable>
         <input type="input" id="link" name="link" >
@@ -45,4 +43,6 @@
         <button type="submit">Добавить</button>
     </center>
 </form>
-</body>
+
+{{ errors }}
+{% endblock %}

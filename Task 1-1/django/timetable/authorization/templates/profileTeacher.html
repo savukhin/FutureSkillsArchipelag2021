@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block style %}
+    <style>
+        body {
+        font-size: 1.5em;
+       }
+    </style>
+</head>
+{% endblock %}
+
+{% block content %}
+<h1 align="center">Личная страница преподавателя</h1>
+{% if photo %}
+    <img src="{{ photo.url }}">
+{% endif %}
+
+<form method="post" action="{% url 'changeProfile' user.id %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if request.user.is_superuser %}
+        <label for="photo">Загрузите фотографию</label>
+        <input type="file" id="photo" name="photo"/>
+    {% endif %}
+
+    <h2>Логин: {{ user }}</h2>
+    <br>
+    <h2>ФИО: {{ realname }}</h2>
+    {% if request.user.is_superuser %}
+        Вы можете изменить ФИО:
+        <input type="text" name="realname" value="{{ realname }}">
+    {% endif %}
+    <br>
+    {% if user.is_superuser %}
+        <h2>Роль: Администратор </h2>
+    {% else %}
+        <h2>Роль: {{ role }}</h2>
+        {% if request.user.is_superuser %}
+            Вы можете назначить роль:
+            <select onchange="changeRole(event)" name="role">
+                <option>Студент</option>
+                <option selected>Преподаватель</option>
+                <option>Администратор</option>
+                <option>Без роли</option>
+            </select>
+        {% endif %}
+    {% endif %}
+
+    <br>
+    <h3>Группы:
+        {% for group in groups %}
+            {{ group.name }}
+        {% endfor %}
+    </h3>
+    {% if request.user.is_superuser %}
+        <label for="groups"> Вы можете изменить группы:</label>
+        <input type="text" id="groups" name="groups" value="{{ groupsAll }}">
+    {% endif %}
+    <br>
+    <h3>Почта: {{user.email}}</h3>
+    <button type="submit">Изменить</button>
+</form>
+{% endblock %}
