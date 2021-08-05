@@ -5,6 +5,8 @@ from django import forms
 
 
 class LessonForm(ModelForm):
+    # subject = forms.CharField()
+
     class Meta:
         model = Lesson
-        fields = ['title', 'teacherName', 'beginTime', 'endTime', 'link']
+        fields = ['subject', 'teacherName', 'beginTime', 'endTime', 'link']

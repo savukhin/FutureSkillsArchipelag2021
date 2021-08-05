@@ -12,12 +12,33 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseNotFound, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import Group
+from lessons.models import Teacher
+from lessons.models import Group as lesson_Group
+from lessons.views import create_group
 
 # Create your views here.
 
 
+def profile_teacher(request, teacher):
+    groupsforinput = []
+    for x in teacher.groups.all():
+        groupsforinput.append(x.name)
+    return render(request, 'profileTeacher.html', context={'user': teacher.user.user, 'groups': teacher.groups.all(),
+                                                           'groupsAll': ' '.join(groupsforinput),
+                                                           'subjects': teacher.subjects,
+                                                           'role': teacher.user.user.groups.all()[0],
+                                                           'photo': teacher.user.photo,
+                                                           'realname': teacher.user.realname})
+
+
 def profile(request, id):
     user = get_object_or_404(User, pk=id)
+
+    teacher = Teacher.objects.filter(user__user=user)
+    if len(teacher) > 0:
+        teacher = teacher[0]
+        return profile_teacher(request, teacher)
+
     try:
         custom = CustomUser.objects.get(user=user)
         realname = custom.realname
@@ -25,12 +46,18 @@ def profile(request, id):
         custom = None
         realname = ""
 
+    role = user.groups.all()
+    if len(role) >= 1:
+        role = role[0]
+    else:
+        role = None
+
     try:
         photo = custom.photo
     except:
         photo = None
-    return render(request, 'profile.html', context={'user': user, 'photo': photo, 'role': user.groups.all()[0],
-                                                    'realname' : realname})
+    return render(request, 'profile.html', context={'user': user, 'photo': photo, 'role': role,
+                                                    'realname': realname})
 
 
 @user_passes_test(lambda user: user.is_superuser, login_url='/')
@@ -39,8 +66,31 @@ def change_profile(request, id):
         return HttpResponseNotFound()
     user = get_object_or_404(User, pk=id)
     group, created = Group.objects.get_or_create(name=request.POST["role"])
+
+    teachers = Teacher.objects.filter(user__user=user)
+    for i in range(len(teachers)):
+        teachers[i].delete()
     user.groups.clear()
     user.groups.add(group)
+
+    custom = CustomUser.objects.filter(user=user)
+    if len(custom) == 0:
+        custom = CustomUser(user=user)
+        custom.save()
+    else:
+        custom = custom[0]
+
+    if str(group) == 'Преподаватель':
+        teacher = Teacher(user=custom)
+        teacher.save()
+        if request.POST.get('groups', False):
+            groups = request.POST['groups'].split(' ')
+            teacher.groups.clear()
+
+            for group in groups:
+                res = create_group(group)
+                teacher.groups.add(res)
+        teacher.save()
     try:
         custom = CustomUser.objects.get(user=user)
         custom.realname = request.POST['realname']
@@ -48,6 +98,7 @@ def change_profile(request, id):
         if request.FILES.get('photo', False):
             custom.photo = request.FILES['photo']
         custom.save()
+
     except:
         pass
     return redirect('/profile/' + str(id))

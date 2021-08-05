@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<h1 align="center">Личная страница учащегося</h1>
+<h1 align="center">Личная страница преподавателя</h1>
 {% if photo %}
     <img src="{{ photo.url }}">
 {% endif %}
@@ -36,35 +36,24 @@
         {% if request.user.is_superuser %}
             Вы можете назначить роль:
             <select onchange="changeRole(event)" name="role">
-                {% if role|safe == Студент %}
-                    <option selected>Студент</option>
-                {% else %}
-                    <option>Студент</option>
-                {% endif %}
-
-                {% if role|safe == 'Преподаватель' %}
-                    <option selected>Преподаватель</option>
-                {% else %}
-                    <option>Преподаватель</option>
-                {% endif %}
-
-                {% if role|safe == 'Администратор' %}
-                    <option selected>Администратор</option>
-                {% else %}
-                    <option>Администратор</option>
-                {% endif %}
-
-                {% if role|safe == 'Без роли' %}
-                    <option selected>Без роли</option>
-                {% else %}
-                    <option>Без роли</option>
-                {% endif %}
+                <option>Студент</option>
+                <option selected>Преподаватель</option>
+                <option>Администратор</option>
+                <option>Без роли</option>
             </select>
-    {% endif %}
+        {% endif %}
     {% endif %}
 
     <br>
-    <h3>Группа: {{ group }}</h3>
+    <h3>Группы:
+        {% for group in groups %}
+            {{ group.name }}
+        {% endfor %}
+    </h3>
+    {% if request.user.is_superuser %}
+        <label for="groups"> Вы можете изменить группы:</label>
+        <input type="text" id="groups" name="groups" value="{{ groupsAll }}">
+    {% endif %}
     <br>
     <h3>Почта: {{user.email}}</h3>
     <button type="submit">Изменить</button>

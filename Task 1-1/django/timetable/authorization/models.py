@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.models import PermissionsMixin
-from lessons.models import Group
+# from lessons.models import Group
 
 # Create your models here.
 
